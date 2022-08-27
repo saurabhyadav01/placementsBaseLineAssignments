@@ -1,0 +1,72 @@
+*
+{
+  margin: 0;
+  padding: 0
+}
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(115, 184, 195);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.container
+{
+  width: 100%;
+  height: 730px;
+ 
+}
+.container-fluid
+{
+  width: 70%;
+  height: auto;
+  margin: auto;
+ height: 100%;
+margin-top: 1%;
+
+}
+.main-container
+{
+  width: 97%;
+
+  height: 98%;
+  margin: auto;
+
+  border-radius: 2%;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  
+}
+.search-botton
+{
+  width: 95%;
+  height: 50px;
+  margin: 3% 0% 0% 3%;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+}
+.week-Box
+{
+  border: 1px solid red;
+  height: 20%;
+  margin: auto;
+  width: 95%;
+  margin: 3%;
+}
+.wheater-details-box
+{
+
+  height: 55%;
+  margin: auto;
+  width: 95%;
+  margin: 3%;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+}
