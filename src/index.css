@@ -55,11 +55,13 @@ margin-top: 1%;
 }
 .week-Box
 {
-  border: 1px solid red;
-  height: 20%;
-  margin: auto;
+
+  height: 24%;
+ 
   width: 95%;
+  margin: auto;
   margin: 3%;
+  overflow: hidden;
 }
 .wheater-details-box
 {
@@ -69,4 +71,8 @@ margin-top: 1%;
   width: 95%;
   margin: 3%;
   box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+}
+.week-Box-list-item:hover
+{
+ border: 2px solid  rgb(115, 184, 195) ;
 }

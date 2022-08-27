@@ -1,3 +1,4 @@
+import { hover } from "@testing-library/user-event/dist/hover";
 import React, { useEffect, useState } from "react";
 
 const Home = () => {
@@ -34,7 +35,7 @@ const Home = () => {
 
     // var day=["sunday","Mpnday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
-    if (index <= 6) {
+    if (index <= 7) {
       var date = new Date(elem.dt * 1000);
       var day;
       console.log(date.getDay());
@@ -47,11 +48,11 @@ const Home = () => {
       } else if (date.getDay() == 3) {
         return "Wed";
       } else if (date.getDay() == 4) {
-        return "Thrusday";
+        return "Thru";
       } else if (date.getDay() === 5) {
-        return "Friday";
+        return "Fri";
       } else if (date.getDay() === 6) {
-        return "Saturday";
+        return "Sat";
       }
       var link = `http://openweathermap.org/img/wn/${img}@2x.png`;
       console.log(link)
@@ -69,14 +70,14 @@ console.log(day)
             <div className="search-box">
               <input type="text" className="search-botton" />
             </div>
-            <div className="week-Box">
+            <div className="week-Box" >
             
-                <div style={{display:"flex"}}>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center" ,width:"100%",margin:"auto"}}>
                 
                     {
                         weekData.map((elem,i)=>(
                             
-                          <div>
+                          <div className="week-Box-list-item" style={{textAlign:"center",margin:"auto"}}>
                             <h5>{day[i]}</h5>
                               <h5>{elem.temp.min} °</h5>
                            
