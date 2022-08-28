@@ -4,6 +4,7 @@ import Home from "./components/Home";
 import React, { useEffect } from "react";
 import axios from "axios";
 import TempatureGraph from "./components/TempatureGraph";
+import Landing from "./components/Landing";
 function App() {
 useEffect(()=>
 {
@@ -19,8 +20,8 @@ useEffect(()=>
 
   return (
     <React.Fragment>
-      <Home />
-      
+     
+     <Landing />
     </React.Fragment>
   );
 }

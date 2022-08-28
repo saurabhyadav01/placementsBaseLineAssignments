@@ -3,15 +3,17 @@ import Chart from "react-apexcharts";
 import "../style/Graph.css"
 
 const TempatureGraph = ({ tepmrature }) => {
-   console.log(tepmrature)
+
     const obj = {
         options: {
             chart: {
                 type: "area",
+                height: 550,
                 zoom: {
                     enabled: false,
                 }
             },
+            
             dataLabels: {
                 enabled: false,
             },
@@ -34,7 +36,7 @@ const TempatureGraph = ({ tepmrature }) => {
         series: [
             {
                 name: "Temprature",
-                data: [tepmrature.min, tepmrature.max, tepmrature.eve, tepmrature.night]
+                 data: [tepmrature.min, tepmrature.max, tepmrature.eve, tepmrature.night]
             }
         ]
     }

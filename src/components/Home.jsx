@@ -1,7 +1,12 @@
 import { hover } from "@testing-library/user-event/dist/hover";
 import React, { useEffect, useState } from "react";
 import TempatureGraph from "./TempatureGraph";
-import Graphs from "./AreaGraph";
+import Graph from "./AreaGraph"
+import Loader from "./Loder"
+import ReactDOM from 'react-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+
 
 const Home = () => {
   const [weekData, setWeekdata] = useState([]);
@@ -16,7 +21,7 @@ const Home = () => {
   async function getWheteher(cityName) {
     try {
       let city = cityName || "delhi";
-
+       setCityName(city)
       console.log(city);
       let res = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=6ff1648d640ad3c6260db1ab0fecd897&units=metric`
@@ -78,7 +83,7 @@ const Home = () => {
   };
   // console.log(cityData)
   let temp = cityData.temp?.day;
-  let allTemp=cityData.temp;
+  let allTemp=cityData.temp || "";
   let humidity = cityData.humidity;
   let pressure = cityData.pressure;
   var date = new Date(cityData.sunrise * 1000);
@@ -94,7 +99,7 @@ const Home = () => {
   let img = cityData.weather?.icon || "10d";
   let icons = `http://openweathermap.org/img/wn/${img}@2x.png`;
   // console.log(img)
- console.log(cityData)
+
   useEffect(() => {
     getWheteher(cityName);
   }, [cityName]);
@@ -109,7 +114,12 @@ const Home = () => {
                 placeholder="Search"
                 className="search-botton"
                 onChange={handleChange}
+                value={cityName}
               />
+               <i
+                class="fa fa-lock icon"
+                style={{ position: "absolute", top: "44%", left: "12%" }}
+              ></i>{" "}
             </div>
             <div className="week-Box">
               <div
@@ -151,7 +161,7 @@ const Home = () => {
                 className="wheater-details-box-graph"
                 style={{ height: "20%", border: "red" }}
               >
-                <Graphs daily={weekData} />
+                <Graph tepmrature={allTemp} />
               </div>
               <div
                 style={{
@@ -202,11 +212,14 @@ const Home = () => {
                 </div>
               </div>
               <div>
-                {/* <TempatureGraph tepmrature={allTemp} /> */}
+         
+                <TempatureGraph tepmrature={allTemp} />
               </div>
             </div>
           </div>
         </div>
+         <FontAwesomeIcon icon={faCoffee} />
+         <FontAwesomeIcon icon="fas fa-location" />
       </div>
     </React.Fragment>
   );
