@@ -1,44 +1,59 @@
 import { hover } from "@testing-library/user-event/dist/hover";
 import React, { useEffect, useState } from "react";
+import TempatureGraph from "./TempatureGraph";
+import Graphs from "./AreaGraph";
 
 const Home = () => {
   const [weekData, setWeekdata] = useState([]);
-  var dailyData;
-  async function getWheteher() {
+  const [cityData, setcityData] = useState({});
+  const [icon, setIcon] = useState();
+  const [cityName, setCityName] = useState("");
+  let dailyData;
+  let data;
+  function handleChange(e) {
+    setCityName(e.target.value);
+  }
+  async function getWheteher(cityName) {
     try {
-      var city = "delhi";
-      var res =
-        await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}
-        &appid=e26bd68cd33e49a7fb77b5b1d1be03ad&units=metric`);
-      var data = await res.json();
+      let city = cityName || "delhi";
 
-      var lon = data.coord.lon;
-      var lat = data.coord.lat;
-      // console.log(x,y)
+      console.log(city);
+      let res = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=6ff1648d640ad3c6260db1ab0fecd897&units=metric`
+      );
+      data = await res.json();
+    
+
+      let lon = data.coord.lon;
+      let lat = data.coord.lat;
+
       var res2 = await fetch(
-        `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude={part}&appid=e26bd68cd33e49a7fb77b5b1d1be03ad&units=metric`
+        `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minute,hourly&appid=6ff1648d640ad3c6260db1ab0fecd897&units=metric`
       );
       var data2 = await res2.json();
       dailyData = data2.daily;
-      //  weekDataDisplay(dailyData)
+      //  console.log(dailyData)
       setWeekdata([...dailyData]);
+      //console.log(data.main)
+      setcityData({ ...dailyData[0] });
     } catch (e) {
       console.log("Error" + e);
     }
   }
-  console.log(weekData);
+  // console.log(cityData)
 
-    var day= weekData.map(function (elem, index) {
+  //let link = `http://openweathermap.org/img/wn/${img}@2x.png`;
+  let day = weekData.map(function (elem, index) {
     //console.log(elem.weather.icon)
-    console.log(elem.weather[0].icon);
-    var img = elem.weather[0].icon;
+    //console.log(elem.weather[0].icon);
+    let img = elem.weather[0].icon;
 
-    // var day=["sunday","Mpnday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    // let day=["sunday","Mpnday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
     if (index <= 7) {
-      var date = new Date(elem.dt * 1000);
-      var day;
-      console.log(date.getDay());
+      let date = new Date(elem.dt * 1000);
+      let day;
+      // console.log(date.getDay());
       if (date.getDay() === 0) {
         return "Sun";
       } else if (date.getDay() === 1) {
@@ -48,47 +63,148 @@ const Home = () => {
       } else if (date.getDay() == 3) {
         return "Wed";
       } else if (date.getDay() == 4) {
-        return "Thru";
+        return "Thr";
       } else if (date.getDay() === 5) {
         return "Fri";
       } else if (date.getDay() === 6) {
         return "Sat";
       }
-      var link = `http://openweathermap.org/img/wn/${img}@2x.png`;
-      console.log(link)
+      let link = `http://openweathermap.org/img/wn/${img}@2x.png`;
     }
   });
-console.log(day)
+  const handleClick = (data) => {
+    // console.log(data.humidity)
+    setcityData({ ...data });
+  };
+  // console.log(cityData)
+  let temp = cityData.temp?.day;
+  let allTemp=cityData.temp;
+  let humidity = cityData.humidity;
+  let pressure = cityData.pressure;
+  var date = new Date(cityData.sunrise * 1000);
+  var hourse = date.getHours();
+  var minute = date.getMinutes();
+  var time = hourse + ":" + minute;
+
+  var date = new Date(cityData.sunset * 1000);
+  var hourse = date.getHours();
+  var minute = date.getMinutes();
+  var time2 = hourse + ":" + minute;
+
+  let img = cityData.weather?.icon || "10d";
+  let icons = `http://openweathermap.org/img/wn/${img}@2x.png`;
+  // console.log(img)
+ console.log(cityData)
   useEffect(() => {
-    getWheteher();
-  }, []);
+    getWheteher(cityName);
+  }, [cityName]);
   return (
     <React.Fragment>
       <div className="container">
         <div className="container-fluid">
           <div className="main-container">
             <div className="search-box">
-              <input type="text" className="search-botton" />
+              <input
+                type="text"
+                placeholder="Search"
+                className="search-botton"
+                onChange={handleChange}
+              />
             </div>
-            <div className="week-Box" >
-            
-                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center" ,width:"100%",margin:"auto"}}>
-                
-                    {
-                        weekData.map((elem,i)=>(
-                            
-                          <div className="week-Box-list-item" style={{textAlign:"center",margin:"auto"}}>
-                            <h5>{day[i]}</h5>
-                              <h5>{elem.temp.min} °</h5>
-                           
-                             <img src={`http://openweathermap.org/img/wn/${elem.weather[0].icon}@2x.png` }alt="" />
-                              <h5>{elem.weather[0].main}</h5>
-                          </div>
-                        ))
-                    }
+            <div className="week-Box">
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  width: "100%",
+                  margin: "auto",
+                }}
+              >
+                {weekData.map((elem, i) => (
+                  <div
+                    className="week-Box-list-item"
+                    style={{ textAlign: "center", margin: "auto" }}
+                    onClick={() => {
+                      handleClick(elem);
+                    }}
+                    key={i}
+                  >
+                    <h5>{day[i]}</h5>
+                    <h5>{elem.temp.min} °</h5>
+
+                    <img
+                      src={`http://openweathermap.org/img/wn/${elem.weather[0].icon}@2x.png`}
+                      alt=""
+                    />
+                    <h5>{elem.weather[0].main}</h5>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="wheater-details-box">
+              <div style={{ display: "flex", margin: "3%", fontSize: "25px" }}>
+                <h1 style={{}}>{temp} °C</h1>
+                <img src={icons} alt="" />
+              </div>
+              <div
+                className="wheater-details-box-graph"
+                style={{ height: "20%", border: "red" }}
+              >
+                <Graphs daily={weekData} />
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                  padding: "2%",
+                  margin: "1%",
+                }}
+              >
+                <div
+                  style={{
+                    backgroundColor: "rgb(230,251,255)",
+                    width: "46%",
+                    padding: "2%",
+                    borderRadius: "1%",
+                  }}
+                >
+                  <h4>Pressure</h4>
+                  <p>{pressure}hpa</p>
                 </div>
+                <div
+                  style={{
+                    backgroundColor: "rgb(230,251,255)",
+                    width: "45%",
+                    padding: "2%",
+                    borderRadius: "1%",
+                  }}
+                >
+                  <h4>Humidity</h4>
+                  <p>{humidity}%</p>
+                </div>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  padding: "2%",
+                  margin: "1%",
+                }}
+              >
+                <div style={{ padding: "2%", borderRadius: "1%" }}>
+                  <h4>Sunrise</h4>
+                  <p>{time}:Am</p>
+                </div>
+                <div style={{ padding: "2%", borderRadius: "1%" }}>
+                  <h4>SunSet</h4>
+                  <p>{time}:Pm</p>
+                </div>
+              </div>
+              <div>
+                {/* <TempatureGraph tepmrature={allTemp} /> */}
+              </div>
             </div>
-            <div className="wheater-details-box"></div>
           </div>
         </div>
       </div>
