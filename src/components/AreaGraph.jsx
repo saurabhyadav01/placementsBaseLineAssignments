@@ -94,7 +94,7 @@ function Graph(tepmrature) {
                         options={obj.options}
                         series={obj.series}
                         type="area"
-                        height="200px"
+                        height="250px"
                         margin="auto"
                     />
                 </div>
