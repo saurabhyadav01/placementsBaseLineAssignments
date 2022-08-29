@@ -257,7 +257,7 @@ let display=true
             </div>
           </div>
         </div>
-        <i class="fa-solid fa-location-dot">sddd</i>
+    
       </div>
     </React.Fragment>
   );
