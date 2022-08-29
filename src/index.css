@@ -110,6 +110,9 @@ overflow-x: scroll;
 {
   padding: 1%;
   width: 85%;
+}.search-display
+{
+  width: 80%;
 }
 .search-icon
 {

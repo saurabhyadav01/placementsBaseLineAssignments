@@ -2,26 +2,45 @@ import { hover } from "@testing-library/user-event/dist/hover";
 import React, { useEffect, useState } from "react";
 import TempatureGraph from "./TempatureGraph";
 import Graph from "./AreaGraph"
-import Loader from "./Loder"
+import Loader from "./Loder";
+import axios from "axios";
 import ReactDOM from 'react-dom'
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
 const Home = () => {
   const [weekData, setWeekdata] = useState([]);
   const [cityData, setcityData] = useState({});
+  const [searchData,setSearchData]=useState({});
   const [icon, setIcon] = useState();
   const [cityName, setCityName] = useState("");
+  const [displays,setDisplay]=useState("");
+ console.log(searchData)
   let dailyData;
   let data;
-  function handleChange(e) {
-    setCityName(e.target.value);
+  function handleChange(city) {
+    let currentCity=city.target.value
+    navigator.geolocation.getCurrentPosition(function(position) {
+      console.log("Latitude is :", position.coords.latitude);
+      console.log("Longitude is :", position.coords.longitude);
+      // let lat=position.coords.latitude;
+      // let lon=position.coords.latitude;
+    });
+    axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${currentCity}&appid=6ff1648d640ad3c6260db1ab0fecd897&units=metric`)
+     .then(function (res) {
+    //console.log(res.data);
+    setSearchData({...res.data})
+   // setCityName(e.target.value);
+   setDisplay("")
+   });
   }
   async function getWheteher(cityName) {
+    
+     
     try {
-      let city = cityName || "delhi";
+
+      let city = cityName ||"delhi" ;
        setCityName(city)
-      console.log(city);
+  
       let res = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=6ff1648d640ad3c6260db1ab0fecd897&units=metric`
       );
@@ -30,7 +49,7 @@ const Home = () => {
 
       let lon = data.coord.lon;
       let lat = data.coord.lat;
-
+       // make another request for week data
       var res2 = await fetch(
         `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=minute,hourly&appid=6ff1648d640ad3c6260db1ab0fecd897&units=metric`
       );
@@ -44,14 +63,11 @@ const Home = () => {
       console.log("Error" + e);
     }
   }
-  // console.log(cityData)
 
-  //let link = `http://openweathermap.org/img/wn/${img}@2x.png`;
   let day = weekData.map(function (elem, index) {
-    //console.log(elem.weather.icon)
-    //console.log(elem.weather[0].icon);
-    let img = elem.weather[0].icon;
 
+    let img = elem.weather[0].icon;
+  //set seven day data
     // let day=["sunday","Mpnday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
     if (index <= 7) {
@@ -73,14 +89,22 @@ const Home = () => {
       } else if (date.getDay() === 6) {
         return "Sat";
       }
-      let link = `http://openweathermap.org/img/wn/${img}@2x.png`;
+     
     }
   });
+  //click handel on seven day data
   const handleClick = (data) => {
-    // console.log(data.humidity)
+   
     setcityData({ ...data });
+    setDisplay(true)
   };
-  // console.log(cityData)
+
+  const handleSearchData=(state)=>
+  {
+    getWheteher(state);
+    setDisplay("none")
+  }
+
   let temp = cityData.temp?.day;
   let allTemp=cityData.temp || "";
   let humidity = cityData.humidity;
@@ -97,10 +121,17 @@ const Home = () => {
 
   let img = cityData.weather?.icon || "10d";
   let icons = `http://openweathermap.org/img/wn/${img}@2x.png`;
-  // console.log(img)
 
+ //current location
+ 
+ //current locarion
+ let state=searchData?.name ||"";
+ let countryName=searchData.sys?.country ||"";
+let display=true
   useEffect(() => {
     getWheteher(cityName);
+    setCityName("")
+   
   }, [cityName]);
   return (
     <React.Fragment>
@@ -120,6 +151,14 @@ const Home = () => {
                <img src="https://cdn-icons-png.flaticon.com/128/3482/3482644.png" className="search-icon" 
                style={{ position: "absolute", top: "8%", left: "72%" ,width:"30px"}}
               ></img>{" "}
+              <div className="search-display" style={{display:`${displays}`,position:"absolute",width:"51%",border:"1px solid gray",margin:"auto",marginLeft:"1.5%"}} onClick={()=>
+              {
+                
+                handleSearchData(state)
+               
+              }}>
+               <h3 style={{fontSize:"20px",display:`${displays}`}}>{state}{"  "}{countryName}</h3>
+              </div>
             </div>
             <div className="week-Box">
               <div
@@ -141,7 +180,7 @@ const Home = () => {
                     key={i}
                   >
                     <h5>{day[i]}</h5>
-                    <h5>{elem.temp.min} °</h5>
+                    <h5>{Math.floor(elem.temp.min)} °{Math.floor(elem.temp.max)}°</h5>
 
                     <img
                       src={`http://openweathermap.org/img/wn/${elem.weather[0].icon}@2x.png`}
