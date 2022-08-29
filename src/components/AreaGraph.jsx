@@ -20,7 +20,7 @@ function Graph(tepmrature) {
 // let daily=null;
 // // console.log(data)
 //  const [tepmrature, setTemprature] = useState([])
-const day = ["Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed", "Thu"]
+// const day = ["Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed", "Thu"]
 //   useEffect(() => {
 //     let arr = []
 //     if (daily == null) {
@@ -64,7 +64,7 @@ const day = ["Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed", "Thu"]
         },
         xaxis: {
             lines: { show: true},
-            categories: day,
+            categories: ["12", "1", "2", "3","4","5","6","7","8","9","10","11","12"],
         },
         yaxis: {
             show: true
