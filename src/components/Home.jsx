@@ -4,8 +4,7 @@ import TempatureGraph from "./TempatureGraph";
 import Graph from "./AreaGraph"
 import Loader from "./Loder"
 import ReactDOM from 'react-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
 const Home = () => {
@@ -109,17 +108,18 @@ const Home = () => {
         <div className="container-fluid">
           <div className="main-container">
             <div className="search-box">
-              <input
+              <img className="location" style={{width:"25px",position:"absolute",background:"transpart",top: "8%", left: "25%"}} src="https://cdn-icons-png.flaticon.com/128/3179/3179068.png" alt="a" />
+              <input 
+                style={{paddingLeft:"30px"}}
                 type="text"
-                placeholder="Search"
+               placeholder="Search City"
                 className="search-botton"
                 onChange={handleChange}
-                value={cityName}
+                
               />
-               <i
-                class="fa fa-lock icon"
-                style={{ position: "absolute", top: "44%", left: "12%" }}
-              ></i>{" "}
+               <img src="https://cdn-icons-png.flaticon.com/128/3482/3482644.png" className="search-icon" 
+               style={{ position: "absolute", top: "8%", left: "72%" ,width:"30px"}}
+              ></img>{" "}
             </div>
             <div className="week-Box">
               <div
@@ -218,8 +218,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-         <FontAwesomeIcon icon={faCoffee} />
-         <FontAwesomeIcon icon="fas fa-location" />
+        <i class="fa-solid fa-location-dot">sddd</i>
       </div>
     </React.Fragment>
   );

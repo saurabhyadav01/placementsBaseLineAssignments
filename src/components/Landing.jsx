@@ -10,7 +10,7 @@ const { useState , useEffect } = React;
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    },1000);
+    },10000);
   },[]);
 
   return (
