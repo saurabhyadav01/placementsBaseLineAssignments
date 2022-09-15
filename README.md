@@ -1,4 +1,4 @@
-# Gettin![2022-08-29](https://user-images.githubusercontent.com/72351102/187091247-5758c241-8acc-43d5-935d-25d54006c509.png)
+# ![2022-08-29](https://user-images.githubusercontent.com/72351102/187091247-5758c241-8acc-43d5-935d-25d54006c509.png)
 g Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
